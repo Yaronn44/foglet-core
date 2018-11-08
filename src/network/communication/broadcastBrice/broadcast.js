@@ -30,15 +30,7 @@ function formatID (message) {
  */
 class Broadcast extends AbstractBroadcast {
   
-  var received = []          // set of received messages
-  var safeNeighbours = []    // Q
-  var bufferedMessages = []  // B
-  var messagesId = []        // I
-  var nbRetries = []         // R
-  var counter = []           // counter
-
-  var maxSize = Number.MAX_SAFE_INTEGER
-  var maxRetry = Number.MAX_SAFE_INTEGER
+  
 
   /**
    * Constructor
@@ -68,7 +60,15 @@ class Broadcast extends AbstractBroadcast {
       // the id is your id, base on the .PEER id in the RPS options
       this._causality = new VVwE(this.options.id)
       // buffer of received messages
-      this._buffer = []
+      this.received = []          // set of received messages
+      this.safeNeighbours = []    // Q
+      this.bufferedMessages = []  // B
+      this.messagesId = []        // I
+      this.nbRetries = []         // R
+      this.counter = []           // counter
+
+      this.maxSize = Number.MAX_SAFE_INTEGER
+      this.maxRetry = Number.MAX_SAFE_INTEGER
     } else {
       return new Error('Not enough parameters', 'fbroadcast.js')
     }
@@ -81,7 +81,7 @@ class Broadcast extends AbstractBroadcast {
    * @return {void}
    */
   _sendAll (message) {
-    const n = this._source.getNeighbours()
+    var n = this.safeNeighbours
     // please select all distinct ids
     if (n.length > 0) {
       n.forEach(p => {
@@ -102,7 +102,16 @@ class Broadcast extends AbstractBroadcast {
   send (message, id) {
     console.log('i send my beautiful message: ', this.options.id, message)
     this._receive(this.options.id, message)
-    this._sendAll(message)
+    this._sendAll(message) // We send to all safe neighbours the message
+
+    //We know have to try to safe a way with the other neighbours
+    this._source.getNeighbours().forEach(q => {
+      if(this.safeNeighbours.include(q)){
+        
+      }
+    })
+
+
   }
 
   /**
