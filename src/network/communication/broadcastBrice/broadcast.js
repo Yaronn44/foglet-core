@@ -109,8 +109,10 @@ class Broadcast extends AbstractBroadcast {
 
     //We know have to try to safe a way with the other neighbours
     this._source.getNeighbours().forEach(q => {
-      if(this.safeNeighbours.include(q)){
+      // if the neighbour is not already safe we try to set up a safe connexion
+      if(!this.safeNeighbours.include(q)){
         this.ping(this.options.id,q,)
+        // TODO should store message into a buffer to send them when the pong come
       }
     })
 
