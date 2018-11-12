@@ -99,7 +99,7 @@ class Broadcast extends AbstractBroadcast {
    * @param  {Object} [isReady] {e: <stringId>, c: <Integer>} this uniquely represents the id of the operation that we must wait before delivering the message
    * @return {boolean}
    */
-  send (message, id) {
+  send (id, message) {
     console.log('i send my beautiful message: ', this.options.id, message)
     this._receive(this.options.id, message)
     this._sendAll(message) // We send to all safe neighbours the message
@@ -107,7 +107,7 @@ class Broadcast extends AbstractBroadcast {
     //We know have to try to safe a way with the other neighbours
     this._source.getNeighbours().forEach(q => {
       if(this.safeNeighbours.include(q)){
-        
+        this.ping(this.options.id,q,)
       }
     })
 
