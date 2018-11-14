@@ -10,7 +10,7 @@ function create(id) {
 		rps: {
 			options: {
 				maxPeers: 3,
-				delta: 10 * 1000,	
+				delta: 10 * 1000,
 				// simple-peer moc
 				socketClass: require('../foglet-core.js').SimplePeerMoc
 			}
@@ -99,10 +99,10 @@ function neighbours(user, time) {
 	})
 }
 
-// Use this fonction to call a send on an user 
+// Use this fonction to call a send on an user
 function sendMessage(message, user2, time2){
 	return new Promise((resolve, reject) =>{
-		
+
 		setTimeout(() => {
 			console.log('-----------------------')
 			users[user2].overlay().communication.sendBroadcastBrice(message, users[user2].id)
