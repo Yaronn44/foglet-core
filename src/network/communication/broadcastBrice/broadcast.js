@@ -86,7 +86,7 @@ class Broadcast extends AbstractBroadcast {
    * @return {void}
    */
   _sendAll (message) {
-    var n = this.safeNeighbours
+    const n = this._source.getNeighbours(Infinity)
     // please select all distinct ids
     if (n.length > 0) {
       n.forEach(p => {
@@ -105,7 +105,7 @@ class Broadcast extends AbstractBroadcast {
    * @return {boolean}
    */
   send (id, message) {
-    
+
     console.log('i send my beautiful message: ', id, message)
     var newMessage = {counter: this.causalCounter, message: message, issuer: id}
     this.causalCounter++
@@ -119,6 +119,7 @@ class Broadcast extends AbstractBroadcast {
 
     this.received[index].splice(1, 1, this.causalCounter)
     this.PC_broadcast(newMessage)
+
   }
 
   /**
